@@ -1,0 +1,50 @@
+{
+  "fishrod": {
+    "name": "Fishing Rod",
+    "emoji": "🎣",
+    "description": "Use a fishing rod to catch fish and sell them for quarks!",
+    "price": 1000,
+    "buyable": true,
+    "sellable": true
+  },
+  "shovel": {
+    "name": "Shovel",
+    "emoji": "<:shovel:1133476505935163402>",
+    "description": "Use a shovel to dig underground, and sell any items for quarks!",
+    "price": 2500,
+    "buyable": true,
+    "sellable": true
+  },
+  "pickaxe": {
+    "name": "Pickaxe",
+    "emoji": "⛏️",
+    "price": 10000,
+    "description": "Use a pickaxe to mine underground, and sell any items for quarks!",
+    "buyable": true,
+    "sellable": true
+  },
+  "salmon": {
+    "name": "Salmon",
+    "emoji": "<:salmon:1133569217237622795>",
+    "price": 1000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "oldphone": {
+    "name": "Old phone",
+    "emoji": "<:oldphone:1134168476706152578>",
+    "price": 3000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "diamond": {
+    "name": "Diamond",
+    "emoji": "💎",
+    "price": 7000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  }
+}
