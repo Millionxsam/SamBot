@@ -4,30 +4,87 @@ const {
   ActionRowBuilder,
   ButtonStyle,
   PermissionsBitField,
+  Collection,
 } = require("discord.js");
 const config = require("../config.json");
+const jobs = require("../jobs.json");
 
 module.exports.run = async (client, interaction) => {
   interaction.error = (text) => {
     interaction.reply({ content: `❌ **${text}**`, ephemeral: true });
   };
 
+  let userSettings = await client.userSettings.findOne({
+    userId: interaction.member.id,
+  });
+  if (!userSettings)
+    userSettings = await client.userSettings.create({
+      userId: interaction.member.id,
+    });
+  interaction.userSettings = userSettings;
+
+  let guildSettings = await client.guildSettings.findOne({
+    guildId: interaction.guild.id,
+  });
+  if (!guildSettings)
+    guildSettings = await client.guildSettings.create({
+      guildId: interaction.guild.id,
+    });
+  interaction.guildSettings = guildSettings;
+
   let currencyData = await client.currency.findOne({
     userId: interaction.member.id,
   });
-  if (!currencyData) {
-    let c = await client.currency.create({
+  if (!currencyData)
+    currencyData = await client.currency.create({
       userId: interaction.member.id,
     });
-
-    currencyData = c;
-  }
-
   interaction.currency = currencyData;
 
-  if (interaction.isChatInputCommand()) {
+  let jobList = [];
+  for (let i in jobs) {
+    jobList.push(jobs[i]);
+  }
+  jobList.sort((a, b) => {
+    return a.pay - b.pay;
+  });
+  jobList.forEach((j, index) => {
+    let unlocked = interaction.currency.job.unlocked;
+    if (index > unlocked - 1) {
+      jobList[index].locked = true;
+    } else jobList[index].locked = false;
+  });
+
+  if (
+    interaction.isChatInputCommand() ||
+    interaction.isUserContextMenuCommand()
+  ) {
     const command = client.commands.get(interaction.commandName);
     if (!command) return interaction.error("This command no longer exists");
+
+    // Handling cooldowns -->
+    if (!client.cooldowns.has(interaction.commandName))
+      client.cooldowns.set(interaction.commandName, new Collection());
+
+    const now = Date.now();
+    const timestamps = client.cooldowns.get(interaction.commandName);
+    const { default_cooldown } = require("../config.json");
+    const cooldownAmount = (command.cooldown || default_cooldown) * 1000;
+
+    if (timestamps.has(interaction.member.id)) {
+      const expirationTime =
+        timestamps.get(interaction.member.id) + cooldownAmount;
+
+      if (now < expirationTime) {
+        const expiredTimestamp = Math.round(expirationTime / 1000);
+        return interaction.error(
+          `You can use that command <t:${expiredTimestamp}:R>`
+        );
+      }
+    }
+
+    timestamps.set(interaction.member.id, now);
+    setTimeout(() => timestamps.delete(interaction.member.id), cooldownAmount);
 
     if (command.botPerms) {
       let neededPerms = [];
@@ -50,10 +107,24 @@ module.exports.run = async (client, interaction) => {
       }
     }
 
+    if (
+      !interaction.guildSettings.music.enabled &&
+      command.category === "Music"
+    )
+      return interaction.error(
+        "Music commands have been disabled on this server"
+      );
+
     if (command.category === "Music" && !interaction.member.voice.channel)
       return interaction.error(
         "You must be in a voice channel to run that command"
       );
+
+    if (
+      command.category === "Leveling" &&
+      !interaction.guildSettings.leveling.enabled
+    )
+      return interaction.error("Leveling system is disabled for this server");
 
     if (
       command.category === "Ticket" &&
@@ -99,6 +170,11 @@ module.exports.run = async (client, interaction) => {
       console.error(e);
     }
   } else if (interaction.isStringSelectMenu()) {
+    if (interaction.message.interaction.user.id !== interaction.member.id)
+      return interaction.error(
+        "That menu is not for you! Do the command yourself to use the menu"
+      );
+
     switch (interaction.customId) {
       case "help":
         const value = interaction.values[0];
@@ -136,6 +212,27 @@ module.exports.run = async (client, interaction) => {
           }`
         );
         break;
+      case "job-apply":
+        const job = interaction.values[0];
+        if (jobList.find((j) => j.name === job).locked)
+          return interaction.error(
+            "That job is locked. You need to do other jobs and earn money to unlock more jobs"
+          );
+
+        if (interaction.currency.job.current === job)
+          return interaction.error("You already have that job");
+
+        interaction.currency.job.current = job;
+        interaction.currency.job.level = 0;
+        interaction.currency.job.xp = 0;
+        interaction.currency.job.lastWorked = null;
+
+        await client.currency.findOneAndUpdate(
+          { userId: interaction.member.id },
+          { job: interaction.currency.job }
+        );
+
+        interaction.reply(`You now have the job **${job}**`);
     }
   } else if (interaction.isButton()) {
     (async () => {

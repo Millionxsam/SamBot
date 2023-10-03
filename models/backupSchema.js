@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const backupSchema = new mongoose.Schema({
-  serverId: { type: Number, required: true },
-  createdBy: { type: Number, required: true },
+  guildId: { type: String, required: true },
+  createdBy: { type: String, required: true },
   name: { type: String, required: true },
   id: { type: String, required: true },
 });

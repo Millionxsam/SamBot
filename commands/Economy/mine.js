@@ -1,11 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  name: "dig",
-  description: "Dig in the ground to find items and sell them for quarks!",
-  items: ["shovel"],
+  name: "mine",
+  description: "Mine underground to find valuable items!",
+  items: ["pickaxe"],
+  cooldown: 60,
   run: async (client, interaction) => {
-    const itemList = ["oldphone"];
+    const itemList = ["diamond"];
     const value = itemList[client.random(0, itemList.length - 1)];
     const item = client.shop[value];
 

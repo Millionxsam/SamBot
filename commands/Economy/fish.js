@@ -4,6 +4,7 @@ module.exports = {
   name: "fish",
   description: "Catch fish and sell them for quarks",
   items: ["fishrod"],
+  cooldown: 60,
   run: async (client, interaction) => {
     const fishList = ["salmon"];
     // , "trout", "bass", "catfish", "cod"

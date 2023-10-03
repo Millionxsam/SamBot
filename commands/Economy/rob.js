@@ -3,6 +3,7 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 module.exports = {
   name: "rob",
   description: "Try to steal quarks from someone's wallet",
+  cooldown: 240,
   options: [
     {
       name: "user",

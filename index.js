@@ -13,6 +13,7 @@
   // Setting client shortcuts & collections
   client.commands = new Collection();
   client.textcmds = new Collection();
+  client.cooldowns = new Collection();
   client.config = require("./config.json");
   client.shop = require("./shop.json");
 
@@ -64,6 +65,9 @@
 
   client.currency = require("./models/currencySchema.js");
   client.backups = require("./models/backupSchema.js");
+  client.levels = require("./models/levelSchema.js");
+  client.guildSettings = require("./models/guildSchema.js");
+  client.userSettings = require("./models/userSchema.js");
 
   // Setting up commands and events handlers -->
   ["commands", "events"].forEach((handler) => {

@@ -1,6 +1,7 @@
 module.exports = {
   name: "beg",
   description: "Beg to get money",
+  cooldown: 60,
   run: async (client, interaction) => {
     const quarks = client.random(100, 500);
 

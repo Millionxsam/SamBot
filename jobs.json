@@ -1,0 +1,68 @@
+{
+  "gamer": {
+    "name": "Gamer",
+    "emoji": "🎮",
+    "pay": 5000,
+    "levels": [6500, 7500, 8500]
+  },
+  "youtuber": {
+    "name": "Influencer",
+    "emoji": "🎥",
+    "pay": 10000,
+    "levels": [10500, 11000, 11500]
+  },
+  "engineer": {
+    "name": "Engineer",
+    "emoji": "🛠️",
+    "pay": 12000,
+    "levels": [12500, 13000, 14000]
+  },
+  "doctor": {
+    "name": "Doctor",
+    "emoji": "🩺",
+    "pay": 15000,
+    "levels": [15000, 15500, 16000]
+  },
+  "astronaut": {
+    "name": "Astronaut",
+    "emoji": "🚀",
+    "pay": 19000,
+    "levels": [20000, 20500, 21000]
+  },
+  "scientist": {
+    "name": "Scientist",
+    "emoji": "🧪",
+    "pay": 17000,
+    "levels": [17500, 18000, 18500]
+  },
+  "coder": {
+    "name": "Coder",
+    "emoji": "🧑‍💻",
+    "pay": 7000,
+    "levels": [8000, 8500, 9000]
+  },
+  "actor": {
+    "name": "Actor",
+    "emoji": "🎭",
+    "pay": 24000,
+    "levels": [24500, 25000, 26000]
+  },
+  "singer": {
+    "name": "Singer",
+    "emoji": "🎤",
+    "pay": 22000,
+    "levels": [22500, 23000, 23500]
+  },
+  "business": {
+    "name": "Business Owner",
+    "emoji": "🏢",
+    "pay": 27000,
+    "levels": [29000, 30000, 32000]
+  },
+  "franchise": {
+    "name": "Franchise Owner",
+    "emoji": "👑",
+    "pay": 35000,
+    "levels": [37000, 38500, 40000]
+  }
+}

@@ -2,15 +2,16 @@
   "owner": "745660092829007932",
   "dev_servers": ["859915937179893802", "1149470787070345246"],
   "prefix": "-",
+  "default_cooldown": 3,
   "feedback_channels": ["987030821913395291"],
   "main_color": "#ff6600",
   "defaultRefund": 0.9,
   "emotes": {
-    "loading": "1130883394297925664",
-    "plus": "1131677374677778585",
-    "modbadge": "1130833685613133874",
-    "minus": "1132003760663707699",
-    "quarks": "1133460023184478306"
+    "loading": "1155236576859803709",
+    "plus": "1155236574942990487",
+    "modbadge": "1155236571226837193",
+    "minus": "1155236571956646028",
+    "quarks": "1155236570517999656"
   },
   "command_categories": [
     {
@@ -44,9 +45,14 @@
       "description": "Create tickets to resolve issues about the server or other problems (needs to be setup in dashboard)"
     },
     {
-      "name": "Currency",
-      "emoji": "🪙",
+      "name": "Economy",
+      "emoji": "💵",
       "description": "Earn money, buy things, do activities with friends, rob people, and much more!"
+    },
+    {
+      "name": "Leveling",
+      "emoji": "⬆️",
+      "description": "Be active to earn xp and level up in each server to earn rewards!"
     }
   ]
 }
