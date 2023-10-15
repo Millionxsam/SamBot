@@ -170,7 +170,10 @@ module.exports.run = async (client, interaction) => {
       console.error(e);
     }
   } else if (interaction.isStringSelectMenu()) {
-    if (interaction.message.interaction.user.id !== interaction.member.id)
+    if (
+      interaction.message.interaction &&
+      interaction.message.interaction.user.id !== interaction.member.id
+    )
       return interaction.error(
         "That menu is not for you! Do the command yourself to use the menu"
       );
