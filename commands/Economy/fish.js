@@ -4,9 +4,18 @@ module.exports = {
   name: "fish",
   description: "Catch fish and sell them for quarks",
   items: ["fishrod"],
-  cooldown: 60,
+  cooldown: 20,
   run: async (client, interaction) => {
-    const fishList = ["salmon"];
+    const fishList = [
+      "salmon",
+      "trout",
+      "bass",
+      "catfish",
+      "cod",
+      "tropicalfish",
+      "ddfish",
+      "whisfish",
+    ];
     // , "trout", "bass", "catfish", "cod"
     const value = fishList[client.random(0, fishList.length - 1)];
     const fish = client.shop[value];

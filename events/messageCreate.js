@@ -93,17 +93,21 @@ module.exports.run = async (client, message) => {
     message.guildSettings.chatbot.channels.includes(message.channel.id)
   ) {
     await message.channel.sendTyping();
-
-    const cai = new CharacterAI();
-    await cai.authenticateWithToken(
-      "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVqYmxXUlVCWERJX0dDOTJCa2N1YyJ9.eyJpc3MiOiJodHRwczovL2NoYXJhY3Rlci1haS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTc0NjYwMDk0OTE5NTE4ODQyOTciLCJhdWQiOlsiaHR0cHM6Ly9hdXRoMC5jaGFyYWN0ZXIuYWkvIiwiaHR0cHM6Ly9jaGFyYWN0ZXItYWkudXMuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTY5NjExNTI2MywiZXhwIjoxNjk4NzA3MjYzLCJhenAiOiJkeUQzZ0UyODFNcWdJU0c3RnVJWFloTDJXRWtucVp6diIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.ySD51zavkWbS1n27vxibtkIERgvd7mld-TOoxjiXjnctx0AY03G3DfBz3dfvbFl2rqirD7Bn3kp7-P23o8-3nNfdee3oTPK7nCTT8XPXzKaEKNAIrvpfMqhLZariN2mbqb28w4H5yb5dfBBHprsFYx-0SlcyfVaNFezdW2JLhXGrgShHH_24wtb4pYWNu1yx2zOwd1Ch6kAKEmZ5LRYI0ewDgTv0Ko6WeBZlA6hCcNudSxeL9ojkkEgWZysg6rMGCwDyiiM-onoNtQNnVehbk3fKDZpCxgkKT6bRlGogqxNMBAYOTlMaW1w8ukoSDVxneJMNIZlBXw2HoBAOC8ZpCQ"
+    const smartestchatbot = require("smartestchatbot");
+    const chatbot = new smartestchatbot.Client(
+      "MTMzODE2OTAwODE0NjM5MTA0.DL1MRe.szfgdWvS31chbBSyv1HjZxhuubn"
     );
-    const characterId = "vAiUHYsp7E1d1zvu3YD0KPTiuQXO-KCW6vMvkUSa9jg";
-    const chat = await cai.createOrContinueChat(characterId);
 
-    const response = await chat.sendAndAwaitResponse(message.content, true);
-
-    return message.reply(`${response.text}`);
+    const res = await chatbot.chat(
+      {
+        message: message.content,
+        name: client.user.displayName,
+        owner: "Millionxsam",
+        user: message.member.id,
+      },
+      "en"
+    );
+    return message.reply(res);
   }
 
   // Text commands -->

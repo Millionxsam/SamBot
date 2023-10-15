@@ -9,7 +9,7 @@
   },
   "shovel": {
     "name": "Shovel",
-    "emoji": "<:shovel:1133476505935163402>",
+    "emoji": "<:shovel:1155236572644520007> ",
     "description": "Use a shovel to dig underground, and sell any items for quarks!",
     "price": 2500,
     "buyable": true,
@@ -25,16 +25,80 @@
   },
   "salmon": {
     "name": "Salmon",
-    "emoji": "<:salmon:1133569217237622795>",
+    "emoji": "<:salmon:1155236575765082225>",
     "price": 1000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "trout": {
+    "name": "Trout",
+    "emoji": "<:trout:1163124908302282843>",
+    "price": 1500,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "bass": {
+    "name": "Bass",
+    "emoji": "<:bass:1163125161495638028>",
+    "price": 1300,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "catfish": {
+    "name": "Catfish",
+    "emoji": "<:catfish:1163125361278730270>",
+    "price": 2000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "cod": {
+    "name": "Cod",
+    "emoji": "<:cod:1163125588144427018>",
+    "price": 2500,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "tropicalfish": {
+    "name": "Tropical Fish",
+    "emoji": "<:tropic:1163127847796342824>",
+    "price": 5000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "ddfish": {
+    "name": "DD fish",
+    "emoji": "<:dd:1163128407224234104>",
+    "price": 5000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "whisfish": {
+    "name": "Whis fish",
+    "emoji": "<:whis:1163128222465151047>",
+    "price": 5000,
     "refund": 1,
     "buyable": false,
     "sellable": true
   },
   "oldphone": {
     "name": "Old phone",
-    "emoji": "<:oldphone:1134168476706152578>",
+    "emoji": "<:oldphone:1155236573768601640>",
     "price": 3000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "goldcoin": {
+    "name": "Gold coin",
+    "emoji": "🪙",
+    "price": 4000,
     "refund": 1,
     "buyable": false,
     "sellable": true
@@ -43,6 +107,30 @@
     "name": "Diamond",
     "emoji": "💎",
     "price": 7000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "iron": {
+    "name": "Iron",
+    "emoji": "<:iron:1163117590953086976>",
+    "price": 5000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "coal": {
+    "name": "Coal",
+    "emoji": "<:coal:1163117003331088465>",
+    "price": 4000,
+    "refund": 1,
+    "buyable": false,
+    "sellable": true
+  },
+  "gold": {
+    "name": "Gold",
+    "emoji": "<:gold:1163118121020817508>",
+    "price": 6000,
     "refund": 1,
     "buyable": false,
     "sellable": true

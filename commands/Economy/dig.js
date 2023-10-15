@@ -4,9 +4,9 @@ module.exports = {
   name: "dig",
   description: "Dig in the ground to find items and sell them for quarks!",
   items: ["shovel"],
-  cooldown: 60,
+  cooldown: 20,
   run: async (client, interaction) => {
-    const itemList = ["oldphone"];
+    const itemList = ["oldphone", "goldcoin"];
     const value = itemList[client.random(0, itemList.length - 1)];
     const item = client.shop[value];
 

@@ -4,7 +4,7 @@ const jobs = require("../../jobs.json");
 module.exports = {
   name: "work",
   description: "Work a shift to earn money",
-  cooldown: 1,
+  cooldown: 43200,
   run: async (client, interaction) => {
     let jobList = [];
     for (let i in jobs) {
