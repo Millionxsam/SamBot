@@ -19,12 +19,12 @@ module.exports = (client) => {
 
     client.once("ready", () => {
       // Set global commands -->
-      // client.application.commands.set(commands);
+      client.application.commands.set(commands);
 
       // Set commands only on developer servers during testing -->
-      devServers.forEach((id) =>
-        client.guilds.cache.get(id).commands.set(commands)
-      );
+      // devServers.forEach((id) =>
+      //   client.guilds.cache.get(id).commands.set(commands)
+      // );
     });
   });
 };

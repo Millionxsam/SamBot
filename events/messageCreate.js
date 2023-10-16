@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require("discord.js");
-const CharacterAI = require("node_characterai");
 
 module.exports.run = async (client, message) => {
   if (!message || !message.member || message.member.user.bot) return;
@@ -93,20 +92,16 @@ module.exports.run = async (client, message) => {
     message.guildSettings.chatbot.channels.includes(message.channel.id)
   ) {
     await message.channel.sendTyping();
-    const smartestchatbot = require("smartestchatbot");
-    const chatbot = new smartestchatbot.Client(
-      "MTMzODE2OTAwODE0NjM5MTA0.DL1MRe.szfgdWvS31chbBSyv1HjZxhuubn"
-    );
+    const { Hercai } = require("hercai");
+    const herc = new Hercai();
 
-    const res = await chatbot.chat(
-      {
-        message: message.content,
-        name: client.user.displayName,
-        owner: "Millionxsam",
-        user: message.member.id,
-      },
-      "en"
-    );
+    const res = (
+      await herc.question({
+        model: "v2",
+        content: message.content,
+      })
+    ).reply;
+
     return message.reply(res);
   }
 
