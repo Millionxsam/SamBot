@@ -25,8 +25,14 @@ module.exports = {
       .setThumbnail(client.quarks.url)
       .setColor(client.config.main_color)
       .addFields(
-        { name: "Wallet", value: `${client.quarks} ${data.quarks || 0}` },
-        { name: "Bank", value: `${client.quarks} ${data.bank || 0}` }
+        {
+          name: "Wallet",
+          value: `${client.quarks} ${(data.quarks || 0).toLocaleString()}`,
+        },
+        {
+          name: "Bank",
+          value: `${client.quarks} ${(data.bank || 0).toLocaleString()}`,
+        }
       );
 
     interaction.reply({ embeds: [embed] });

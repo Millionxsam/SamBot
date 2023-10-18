@@ -50,17 +50,18 @@ module.exports.run = async (client, message) => {
     let newLevel = levelData.level;
 
     const requiredXp = (10 + newLevel * 5) * 10;
-    let lvlUpMsg =
-      message.guildSettings.leveling.message ||
-      `${message.member} Congratulations! You just leveled up to **level ${newLevel}**!`;
-    lvlUpMsg = lvlUpMsg
-      .replaceAll("[user]", `${message.member}`)
-      .replaceAll("[level]", `${newLevel}`);
 
     // When the user levels up -->
     if (newXp >= requiredXp) {
       newXp = newXp - requiredXp;
       newLevel++;
+
+      let lvlUpMsg =
+        message.guildSettings.leveling.message ||
+        `${message.member} Congratulations! You just leveled up to **level ${newLevel}**!`;
+      lvlUpMsg = lvlUpMsg
+        .replaceAll("[user]", `${message.member}`)
+        .replaceAll("[level]", `${newLevel}`);
 
       if (message.guildSettings.leveling.levelUpMode === "reply") {
         message.channel.send(lvlUpMsg);
@@ -118,7 +119,7 @@ module.exports.run = async (client, message) => {
         const embed = new EmbedBuilder();
 
         try {
-          const output = await eval(args.join(" "));
+          const output = await eval(`(async () => { ${args.join(" ")} })()`);
 
           embed
             .setTitle("Eval Complete")

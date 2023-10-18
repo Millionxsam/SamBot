@@ -86,6 +86,10 @@ module.exports.run = async (client, interaction) => {
     timestamps.set(interaction.member.id, now);
     setTimeout(() => timestamps.delete(interaction.member.id), cooldownAmount);
 
+    interaction.cancelCooldown = () => {
+      timestamps.delete(interaction.member.id);
+    };
+
     if (command.botPerms) {
       let neededPerms = [];
 
@@ -147,7 +151,8 @@ module.exports.run = async (client, interaction) => {
           neededItems.push(item);
       });
 
-      if (neededItems.length)
+      if (neededItems.length) {
+        interaction.cancelCooldown();
         return interaction.error(
           `You need the following items to run this command:\n\n${neededItems
             .map((i) => {
@@ -159,6 +164,7 @@ module.exports.run = async (client, interaction) => {
               "\n"
             )}\n\nDo the /buy command to buy items, or /shop to view all items you can buy and prices`
         );
+      }
     }
 
     try {

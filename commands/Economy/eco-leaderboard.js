@@ -34,7 +34,7 @@ module.exports = {
             .map((u, index) => {
               return `\`#${index + 1}\` - **${
                 client.users.cache.get(u.userId).displayName
-              }** - ${client.quarks}${u.quarks + u.bank}`;
+              }** - ${client.quarks}${(u.quarks + u.bank).toLocaleString()}`;
             })
             .join("\n\n")}`
         );

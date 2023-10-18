@@ -4,7 +4,7 @@ const jobs = require("../../jobs.json");
 module.exports = {
   name: "work",
   description: "Work a shift to earn money",
-  cooldown: 43200,
+  cooldown: 1800,
   run: async (client, interaction) => {
     let jobList = [];
     for (let i in jobs) {
@@ -14,10 +14,12 @@ module.exports = {
       return a.pay - b.pay;
     });
 
-    if (!interaction.currency.job.current)
+    if (!interaction.currency.job.current) {
+      interaction.cancelCooldown();
       return interaction.error(
         "You must have a job to work a shift. Do `/job apply`"
       );
+    }
 
     const job = jobList.find(
       (j) => j.name === interaction.currency.job.current

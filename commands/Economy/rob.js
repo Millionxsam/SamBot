@@ -17,14 +17,18 @@ module.exports = {
     const success = client.random(1, 2) === 1;
     const userData = (await client.currency.findOne({ userId: user.id })) || {};
 
-    if (interaction.currency.quarks < 1000)
+    if (interaction.currency.quarks < 1000) {
+      interaction.cancelCooldown();
       return interaction.error(
         "You need at least 1000 quarks in your wallet to rob someone"
       );
-    if ((userData.quarks || 0) < 1000)
+    }
+    if ((userData.quarks || 0) < 1000) {
+      interaction.cancelCooldown();
       return interaction.error(
         "The user needs at least 1000 quarks to get robbed"
       );
+    }
 
     if (!success) {
       const fine = client.random(500, 1000);
@@ -49,7 +53,9 @@ module.exports = {
 
       return interaction.reply({ embeds: [embed] });
     } else if (success) {
-      const earnings = userData.quarks * 0.1;
+      const earnings = Math.floor(
+        client.random(userData.quarks * 0.05, userData.quarks * 0.1)
+      );
 
       await client.currency.findOneAndUpdate(
         {
@@ -77,7 +83,9 @@ module.exports = {
         .setTitle(`You stole some quarks!`)
         .setColor("1BFF00")
         .setDescription(
-          `You robbed ${user} and got ${client.quarks} **${earnings}** quarks!`
+          `You robbed ${user} and got ${
+            client.quarks
+          } **${earnings.toLocaleString()}** quarks!`
         );
 
       return interaction.reply({ embeds: [embed] });

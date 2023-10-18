@@ -19,6 +19,7 @@ module.exports = {
       description: "The level to set it to",
       type: ApplicationCommandOptionType.Integer,
       required: true,
+      minValue: 0,
     },
   ],
   run: async (client, interaction) => {
@@ -42,6 +43,7 @@ module.exports = {
       },
       {
         level: interaction.options.getInteger("level"),
+        xp: 0,
       }
     );
 
