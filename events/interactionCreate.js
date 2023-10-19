@@ -41,6 +41,17 @@ module.exports.run = async (client, interaction) => {
     });
   interaction.currency = currencyData;
 
+  let voteRewards = false;
+  let lastVoted = (
+    (await client.votes.findOne({ userId: interaction.member.id })) || {}
+  ).lastVoted;
+
+  if (lastVoted) {
+    if (Date.now() - lastVoted <= 43200000) voteRewards = true;
+  }
+
+  interaction.voted = voteRewards;
+
   let jobList = [];
   for (let i in jobs) {
     jobList.push(jobs[i]);

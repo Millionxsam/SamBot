@@ -42,6 +42,18 @@ module.exports = {
     });
 
     if (interaction.options.getSubcommand() === "apply") {
+      if (
+        interaction.currency.job.fired &&
+        Date.now() - interaction.currency.job.fired < 86400000
+      )
+        return interaction.error(
+          `You can't apply for a job right now because you were fired in the last 24 hours. You were fired <t:${Math.round(
+            interaction.currency.job.fired / 1000
+          )}:R>. You can apply for a job <t:${Math.round(
+            (interaction.currency.job.fired + 86400000) / 1000
+          )}:R>`
+        );
+
       const embed = new EmbedBuilder()
         .setTitle("Apply for a job")
         .setColor(client.config.main_color)

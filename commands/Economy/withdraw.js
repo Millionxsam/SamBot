@@ -6,16 +6,32 @@ module.exports = {
   options: [
     {
       name: "amount",
-      description: "How many quarks do you want to withdraw?",
-      type: ApplicationCommandOptionType.Integer,
-      minValue: 1,
+      description:
+        "How many quarks do you want to withdraw? Say 'all' to withdraw all",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],
   run: async (client, interaction) => {
-    const wd = interaction.options.getInteger("amount");
+    let amount = interaction.options.getString("amount");
 
-    if (interaction.currency.bank < wd)
+    if (
+      !(amount.toLowerCase() === "all" || amount.toLowerCase() === "max") &&
+      !parseInt(amount)
+    )
+      return interaction.error(
+        "Say an amount of quarks to withdraw or 'all' to withdraw all"
+      );
+
+    if (amount.toLowerCase() === "all" || amount.toLowerCase() === "max")
+      amount = interaction.currency.bank || 0;
+
+    if (!amount) amount = parseInt(amount);
+
+    if (amount < 1)
+      return interaction.error("The number needs to be greater than 0");
+
+    if (interaction.currency.bank < amount)
       return interaction.error(
         "You don't have that much money in your bank to withdraw"
       );
@@ -26,14 +42,14 @@ module.exports = {
       },
       {
         $inc: {
-          quarks: wd,
-          bank: -wd,
+          quarks: amount,
+          bank: -amount,
         },
       }
     );
 
     interaction.reply(
-      `You withdrew ${client.quarks} **${wd}** quarks from the bank`
+      `You withdrew ${client.quarks} **${amount}** quarks from the bank`
     );
   },
 };

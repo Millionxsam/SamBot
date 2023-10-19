@@ -25,6 +25,29 @@ module.exports = {
       (j) => j.name === interaction.currency.job.current
     );
 
+    let lastWorked = await interaction.currency.job.lastWorked;
+    if (lastWorked && Date.now() - lastWorked > 604800000) {
+      interaction.currency.job.current = null;
+      interaction.currency.job.fired = Date.now();
+
+      await client.currency.findOneAndUpdate(
+        { userId: interaction.member.id },
+        { job: interaction.currency.job }
+      );
+
+      const firedEmbed = new EmbedBuilder()
+        .setTitle("You're fired!")
+        .setColor("#FF0000")
+        .setThumbnail(interaction.member.user.displayAvatarURL())
+        .setDescription(
+          `You were fired from your job because you didn't show up for work for over 7 days! You last showed up for work <t:${Math.round(
+            lastWorked / 1000
+          )}:R>. You can apply for a new job after 24 hours.`
+        );
+
+      return interaction.reply({ embeds: [firedEmbed] });
+    }
+
     const requiredXp = (10 + (interaction.currency.job.level + 1) * 5) * 10;
     let promoted = false;
     let unlocked = false;
@@ -57,6 +80,8 @@ module.exports = {
     }
 
     interaction.currency.quarks = interaction.currency.quarks + pay;
+
+    interaction.currency.job.lastWorked = Date.now();
 
     await client.currency.findOneAndUpdate(
       { userId: interaction.member.id },

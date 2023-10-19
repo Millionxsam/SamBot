@@ -30,6 +30,17 @@ module.exports.run = async (client, message) => {
     });
   message.guildSettings = guildSettings;
 
+  let voteRewards = false;
+  let lastVoted = (
+    (await client.votes.findOne({ userId: message.member.id })) || {}
+  ).lastVoted;
+
+  if (lastVoted) {
+    if (Date.now() - lastVoted <= 43200000) voteRewards = true;
+  }
+
+  message.voted = voteRewards;
+
   // Add xp to member when they send a message -->
   if (message.guildSettings.leveling.enabled) {
     let levelData = await client.levels.findOne({
@@ -46,7 +57,7 @@ module.exports.run = async (client, message) => {
       levelData = l;
     }
 
-    let newXp = levelData.xp + 10;
+    let newXp = message.voted ? levelData.xp + 15 : levelData.xp + 10;
     let newLevel = levelData.level;
 
     const requiredXp = (10 + newLevel * 5) * 10;

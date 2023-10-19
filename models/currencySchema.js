@@ -14,6 +14,7 @@ const currencySchema = new mongoose.Schema({
       xp: 0,
       lastWorked: null,
       unlocked: 1,
+      fired: null,
     },
   },
 });

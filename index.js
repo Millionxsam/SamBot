@@ -68,13 +68,14 @@
   client.levels = require("./models/levelSchema.js");
   client.guildSettings = require("./models/guildSchema.js");
   client.userSettings = require("./models/userSchema.js");
+  client.votes = require("./models/voteSchema.js");
 
   // Setting up commands and events handlers -->
   ["commands", "events"].forEach((handler) => {
     require(`./handlers/${handler}.js`)(client);
   });
 
-  // Starting the backend -->
+  // Starting the server -->
   require("./server.js")(client);
 
   client.login(process.env.token);

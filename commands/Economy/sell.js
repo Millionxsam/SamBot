@@ -35,12 +35,24 @@ module.exports = {
     const value = interaction.options.getString("item");
     const item = shop[interaction.options.getString("item")];
     let amount = interaction.options.getString("amount") || "";
+
+    if (
+      !(amount.toLowerCase() === "all" || amount.toLowerCase() === "max") &&
+      !parseInt(amount)
+    )
+      return interaction.error(
+        "Say an amount of the item to sell or 'all' to sell all"
+      );
+
     if (amount.toLowerCase() === "all" || amount.toLowerCase() === "max")
       amount =
         (interaction.currency.items.find((i) => i.name === value) || {})
           .amount || 0;
+
     if (!amount) amount = parseInt(amount);
-    if (!amount) amount = 1;
+
+    if (amount < 1)
+      return interaction.error("The number needs to be greater than 0");
 
     if (!item.sellable) return interaction.error("That item is not sellable!");
 

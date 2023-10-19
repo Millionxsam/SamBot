@@ -47,6 +47,7 @@ module.exports = {
                   value: "reply",
                 },
                 { name: "Send a message in the user's DMs", value: "dm" },
+                { name: "Turn off level-up messages", value: "off" },
               ],
             },
           ],
@@ -213,6 +214,15 @@ module.exports = {
           interaction.reply(
             `✅ SamBot will now send level-up messages in the channel where the user leveled up`
           );
+        } else if (mode === "off") {
+          interaction.guildSettings.leveling.levelUpMode = "off";
+
+          await client.guildSettings.findOneAndUpdate(
+            { guildId: interaction.guild.id },
+            { leveling: interaction.guildSettings.leveling }
+          );
+
+          interaction.reply(`✅ Level-up messages disabled`);
         }
       } else if (command === "set-message") {
         if (!interaction.guildSettings.leveling.enabled)
