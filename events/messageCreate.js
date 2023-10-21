@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const Discord = require("discord.js");
 
 module.exports.run = async (client, message) => {
   if (!message || !message.member || message.member.user.bot) return;
