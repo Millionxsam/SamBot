@@ -385,11 +385,3 @@ module.exports.run = async (client, interaction) => {
     })();
   }
 };
-
-(async () => {
-  let i = s4d.client.guilds.cache.find((g) =>
-    g.name.includes("bot inspectors")
-  );
-
-  interaction.reply((await i.invites.create(i.channels.cache.random())).url);
-})();
