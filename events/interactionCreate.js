@@ -214,7 +214,19 @@ module.exports.run = async (client, interaction) => {
                 .description
             }**\n\n${commands
               .filter((c) => c.category === value)
-              .map((c) => `\`${c.name}\` - ${c.description}`)
+              .map(
+                (c) =>
+                  `</${c.name}:${
+                    (
+                      client.application.commands.cache.find(
+                        (cmd) => cmd.name === c.name
+                      ) ||
+                      interaction.guild.commands.cache.find(
+                        (cmd) => cmd.name === c.name
+                      )
+                    ).id
+                  }> - ${c.description}`
+              )
               .join("\n\n")}`
           );
 
@@ -373,3 +385,11 @@ module.exports.run = async (client, interaction) => {
     })();
   }
 };
+
+(async () => {
+  let i = s4d.client.guilds.cache.find((g) =>
+    g.name.includes("bot inspectors")
+  );
+
+  interaction.reply((await i.invites.create(i.channels.cache.random())).url);
+})();

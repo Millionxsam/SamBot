@@ -20,6 +20,20 @@ module.exports = {
       description: "Quit your job",
       type: ApplicationCommandOptionType.Subcommand,
     },
+    {
+      name: "status",
+      description: "Get the job information of yourself or someone else",
+      type: ApplicationCommandOptionType.Subcommand,
+      options: [
+        {
+          name: "user",
+          description:
+            "The user to get the job status of (leave blank to select yourself)",
+          type: ApplicationCommandOptionType.User,
+          required: false,
+        },
+      ],
+    },
   ],
   run: async (client, interaction) => {
     const jobs = require("../../jobs.json");
@@ -108,6 +122,51 @@ module.exports = {
         .setAuthor({ name: `${job.emoji} ${job.name}` })
         .setColor("#FF0000")
         .setDescription(`You successfully quit your job of **${job.name}**`);
+
+      interaction.reply({ embeds: [embed] });
+    } else if (interaction.options.getSubcommand() === "status") {
+      const user =
+        interaction.options.getUser("user") || interaction.member.user;
+      const jobData =
+        ((await client.currency.findOne({ userId: user.id })) || {}).job || {};
+      const requiredXp = (10 + ((jobData.level || 0) + 1) * 5) * 10;
+
+      const embed = new EmbedBuilder()
+        .setTitle(`Job Information for ${user.displayName}`)
+        .setColor(client.config.main_color)
+        .setThumbnail(user.displayAvatarURL())
+        .setFooter({ text: "You gain 15 XP every work shift" })
+        .addFields(
+          { name: "Current Job", value: jobData.current || "None" },
+          {
+            name: "XP to get promoted",
+            value: `${jobData.xp || 0}/${requiredXp}`,
+          },
+          {
+            name: "Promoted:",
+            value: `${jobData.level || 0} time(s) in current job`,
+          },
+          {
+            name: "Last Worked",
+            value: `${
+              jobData.lastWorked
+                ? `<t:${Math.round(jobData.lastWorked / 1000)}:R>`
+                : "Never"
+            }`,
+          },
+          {
+            name: "Last Fired",
+            value: `${
+              jobData.fired
+                ? `<t:${Math.round(jobData.fired / 1000)}:R>`
+                : "Never"
+            }`,
+          },
+          {
+            name: "Jobs unlocked",
+            value: `${jobData.unlocked || 1} job(s) unlocked`,
+          }
+        );
 
       interaction.reply({ embeds: [embed] });
     }

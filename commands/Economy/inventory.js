@@ -24,7 +24,7 @@ module.exports = {
         iconURL: user.displayAvatarURL(),
       })
       .setColor(client.config.main_color)
-      .setThumbnail(client.quarks.url)
+      .setThumbnail(client.quarks)
       .setDescription(
         items
           .map((i) => {
