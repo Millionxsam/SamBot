@@ -44,7 +44,7 @@ module.exports = {
 
     if (!target.moderatable)
       return interaction.error(
-        "I can't mute that user, they are higher than me in the hierarchy"
+        "I can't mute that user, either I don't have permission or they are higher than me in the role hierarchy"
       );
 
     if (reason.length > 512)

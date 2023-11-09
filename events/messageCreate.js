@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { EmbedBuilder } = require("discord.js");
 const Discord = require("discord.js");
 

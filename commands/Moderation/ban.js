@@ -48,9 +48,9 @@ module.exports = {
     if (target.user.id === interaction.member.user.id)
       return interaction.error("You can't ban yourself");
 
-    if (!target.moderatable)
+    if (!target.bannable)
       return interaction.error(
-        "I can't ban that user, they are higher than me in the hierarchy"
+        "I can't ban that user, either I don't have permission or they are above me in the role hierarchy."
       );
 
     if (reason.length > 512)
