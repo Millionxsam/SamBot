@@ -29,10 +29,18 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`First Messsage in #${channel.name}`)
       .setURL(msg.url)
-      .setThumbnail(msg.member.user.displayAvatarURL())
+      .setThumbnail(msg.member ? msg.member.user.displayAvatarURL() : "")
       .setDescription("**Content:** " + msg.content)
       .addFields(
-        { name: "Author", value: `${msg.member.user.username}`, inline: true },
+        {
+          name: "Author",
+          value: `${
+            msg.member
+              ? msg.member.user.username
+              : "The author was not found. This is probably because the author was a webhook or does not exist anymore"
+          }`,
+          inline: true,
+        },
         { name: "Message ID", value: msg.id.toString(), inline: true },
         {
           name: "Created At",

@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const Discord = require("discord.js");
 
 module.exports.run = async (client, message) => {
+  if (message.member.id === client.user.id) return;
   if (!message || !message.member || message.member.user.bot) return;
 
   let currencyData = await client.currency.findOne({
@@ -108,12 +109,22 @@ module.exports.run = async (client, message) => {
     await message.channel.sendTyping();
     const { Hercai } = require("hercai");
     const herc = new Hercai();
+    const prompt =
+      `You are a Discord bot named SamBot created by Millionxsam.
+      You should act like a teenage boy on Discord talking to your friend.
+      Don\'t be too professional, and act casual. The name of the Discord server you are currently talking on is "${message.guild.name}". You don\'t need to mention the server name, your name, or the user\'s name unless the prompt requires you to do so. You are talking to a user on Discord whose name is "${message.member.user.displayName}".
+      Respond based on what the user says to you. What the user says to you:` +
+      message.content;
 
     const res = (
-      await herc.question({
-        model: "v2",
-        content: message.content,
-      })
+      await herc
+        .question({
+          model: "v3-beta",
+          content: prompt,
+        })
+        .catch((e) => {
+          return message.reply("Couldn't generate a response");
+        })
     ).reply;
 
     return message.reply(res);

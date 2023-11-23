@@ -10,19 +10,35 @@ module.exports = {
       required: true,
       type: ApplicationCommandOptionType.String,
     },
+    {
+      name: "model",
+      description:
+        "Model to use for generation. Each generate in different ways, see which one you like best",
+      required: true,
+      type: ApplicationCommandOptionType.String,
+      choices: [
+        { name: "V1", value: "v1" },
+        { name: "V2", value: "v2" },
+        { name: "V3 (DALL-E)", value: "v3" },
+        { name: "Lexica", value: "lexica" },
+        { name: "Prodia (MAY BE NSFW)", value: "prodia" },
+      ],
+    },
   ],
   run: async (client, interaction) => {
     await interaction.reply(
       `${client.emojis.cache.get(
         client.config.emotes.loading
-      )} **Generating image...**`
+      )} **Generating image with the prompt "${interaction.options.getString(
+        "prompt"
+      )}"...** This may take a while`
     );
     const { Hercai } = require("hercai");
     const herc = new Hercai();
 
     const url = (
       await herc.drawImage({
-        model: "v2",
+        model: interaction.options.getString("model"),
         prompt: interaction.options.getString("prompt"),
       })
     ).url;
