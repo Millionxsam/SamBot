@@ -3,8 +3,8 @@ const { EmbedBuilder } = require("discord.js");
 const Discord = require("discord.js");
 
 module.exports.run = async (client, message) => {
-  if (message.member.id === client.user.id) return;
   if (!message || !message.member || message.member.user.bot) return;
+  if (message.member.id === client.user.id) return;
 
   let currencyData = await client.currency.findOne({
     userId: message.member.id,
@@ -128,6 +128,19 @@ module.exports.run = async (client, message) => {
     ).reply;
 
     return message.reply(res);
+  }
+
+  if (message.mentions.users.first() === client.user && !message.reference) {
+    const embed = new EmbedBuilder()
+      .setTitle("Need some help?")
+      .setThumbnail(client.user.displayAvatarURL())
+      .setColor(client.config.main_color)
+      .setDescription("You can use the /help command to see what I can do")
+      .setFooter({ text: "This message will be deleted in 30 seconds" });
+
+    const res = await message.reply({ embeds: [embed] });
+
+    setTimeout(() => res.delete(), 30000);
   }
 
   // Text commands -->

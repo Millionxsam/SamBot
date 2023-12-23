@@ -29,7 +29,11 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`First Messsage in #${channel.name}`)
       .setURL(msg.url)
-      .setThumbnail(msg.member ? msg.member.user.displayAvatarURL() : "")
+      .setThumbnail(
+        msg.member
+          ? msg.member.user.displayAvatarURL()
+          : interaction.guild.iconURL() || null
+      )
       .setDescription("**Content:** " + msg.content)
       .addFields(
         {

@@ -245,6 +245,12 @@ module.exports = {
         break;
 
       case "load":
+        const owner = await interaction.guild.fetchOwner();
+        if (owner.id !== interaction.member.id)
+          return interaction.error(
+            "Only the owner of the server can load backups"
+          );
+
         const lBackup =
           (await client.backups.findOne({
             guildId: interaction.guild.id,
@@ -254,8 +260,6 @@ module.exports = {
             name: interaction.options.getString("name").toLowerCase(),
             createdBy: interaction.member.id,
           }));
-
-        const owner = await interaction.guild.fetchOwner();
 
         if (!lBackup)
           return interaction.error(

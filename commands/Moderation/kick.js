@@ -34,9 +34,19 @@ module.exports = {
     if (target.user.id === interaction.member.user.id)
       return interaction.error("You can't kick yourself");
 
+    if (interaction.guild.ownerId === target.id)
+      return interaction.error("You can't kick the owner of the server");
+
+    if (
+      target.roles.highest.position >= interaction.member.roles.highest.position
+    )
+      return interaction.error(
+        "You cannot kick that user because they have the same or higher role than you."
+      );
+
     if (!target.kickable)
       return interaction.error(
-        "I can't kick that user, either I don't have permission or they are above me in the role hierarchy."
+        "I can't kick that user, either I don't have permission or they have a higher role than me"
       );
 
     if (reason.length > 512)
