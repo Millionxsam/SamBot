@@ -1,5 +1,5 @@
 const { readdirSync } = require("fs");
-const devServers = require("../config.json").dev_servers;
+const { dev_servers, devMode } = require("../config.json");
 
 const commands = [];
 
@@ -18,13 +18,13 @@ module.exports = (client) => {
     });
 
     client.once("ready", () => {
-      // Set global commands -->
-      // client.application.commands.set(commands);
-
-      // Set commands only on developer servers during testing -->
-      devServers.forEach((id) =>
-        client.guilds.cache.get(id).commands.set(commands)
-      );
+      if (devMode) {
+        dev_servers.forEach((id) =>
+          client.guilds.cache.get(id).commands.set(commands)
+        );
+      } else {
+        client.application.commands.set(commands);
+      }
     });
   });
 };
