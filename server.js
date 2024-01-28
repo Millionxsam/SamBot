@@ -8,6 +8,10 @@ module.exports = (client) => {
 
   const webhook = new Topgg.Webhook(process.env.topggwebhook);
 
+  app.get("/", (req, res) => {
+    res.send(`Server is ready`);
+  });
+
   app.post(
     "/vote",
     webhook.listener(async (vote) => {
@@ -58,5 +62,5 @@ module.exports = (client) => {
     })
   );
 
-  app.listen(8836);
+  app.listen(80);
 };
