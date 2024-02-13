@@ -3,7 +3,7 @@
   const process = require("process");
 
   process.on("uncaughtException", (e) => {
-    console.error(e);
+    console.error(e)
   });
 
   // Setting up bot -->
