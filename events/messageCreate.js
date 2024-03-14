@@ -109,25 +109,57 @@ module.exports.run = async (client, message) => {
     await message.channel.sendTyping();
     const { Hercai } = require("hercai");
     const herc = new Hercai();
-    const prompt =
-      `You are a Discord bot named SamBot created by Millionxsam.
-      You should act like a teenage boy on Discord talking to your friend.
-      Don\'t be too professional, and act casual. The name of the Discord server you are currently talking on is "${message.guild.name}". You don\'t need to mention the server name, your name, or the user\'s name unless the prompt requires you to do so. You are talking to a user on Discord whose name is "${message.member.user.displayName}".
-      Respond based on what the user says to you. What the user says to you:` +
-      message.content;
+    const prevMessages = message.channel.messages.cache.last(10);
+    prevMessages.pop();
+
+    const prompt = `You are a Discord chatbot named "${
+      client.user.username
+    }" created by Millionxsam.\n\nRESPOND TO THE USER'S PROMPT. Their prompt: "${
+      message.content
+    }".
+    \n\nHere are the last ten messages in this channel, in order from oldest to newest. Use these messages to continue any conversations or get context:
+      \n\n${
+        prevMessages
+          .map((m) => `${m.author.displayName}: ${m.content}`)
+          .join("\n") || "No previous messages"
+      }
+      \n\nUse the following information to create your response:\n
+      The name of the Discord server you are currently talking on is called "${
+        message.guild.name
+      }".
+      You are talking to a user on Discord whose name is "${
+        message.member.user.displayName
+      }".
+      If the user wants to deactivate you or stop talking to you, the user can run the command "/chatbot off".
+      If the user wants to get information about all of your commands, they can run the command "/help".
+      You are currently in ${client.guilds.cache.size} servers and have ${
+      client.commands.size
+    } total commands.
+      Your logo is an orange 3d triangle with a dark blue background, and your main theme color is orange.
+      In your response, act like a friendly and funny Discord user.
+      Avoid sending large responses to simple user prompts.
+      Don\'t be too professional, keep responses simple and short, and act casual, but not cringey.
+      You don\'t need to mention the server name, your name, the user\'s name, or any other information unless the user\'s prompt requires you to do so.
+      `;
 
     const res = (
       await herc
         .question({
-          model: "v3-beta",
+          model: "v3-32k",
           content: prompt,
         })
         .catch((e) => {
-          return message.reply("Couldn't generate a response");
+          console.error(e);
+          return message.reply(`Can you say that again? (Error: ${e})`);
         })
     ).reply;
 
-    return message.reply(res);
+    return message.reply(
+      (res || "Can you say that again?").replaceAll(
+        "(https://discord.com/api/oauth2/authorize?client_id=857623243909103636)",
+        "(https://discord.com/api/oauth2/authorize?client_id=857623243909103636&permissions=8&scope=applications.commands%20bot)"
+      )
+    );
   }
 
   if (message.mentions.users.first() === client.user && !message.reference) {
