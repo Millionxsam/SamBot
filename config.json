@@ -1,6 +1,6 @@
 {
   "owner": "745660092829007932",
-  "devMode": true,
+  "devMode": false,
   "dev_servers": ["1209316742602424360", "859915937179893802"],
   "prefix": "-",
   "default_cooldown": 3,
