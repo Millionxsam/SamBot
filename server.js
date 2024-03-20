@@ -4,8 +4,14 @@ const port = parseInt(process.env.port);
 module.exports = (client) => {
   const express = require("express");
   const Topgg = require("@top-gg/sdk");
+  const cors = require("cors");
 
   const app = express();
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+    })
+  );
 
   const webhook = new Topgg.Webhook(process.env.topggwebhook);
 
