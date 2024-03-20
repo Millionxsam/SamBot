@@ -1,5 +1,6 @@
 const { readdirSync } = require("fs");
-const { dev_servers, devMode } = require("../config.json");
+const { dev_servers } = require("../config.json");
+const devMode = process.env.devMode === "true";
 
 const commands = [];
 

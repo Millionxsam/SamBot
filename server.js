@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const port = parseInt(process.env.port);
 
 module.exports = (client) => {
   const express = require("express");
@@ -10,6 +11,33 @@ module.exports = (client) => {
 
   app.get("/", (req, res) => {
     res.send(`Server is ready`);
+  });
+
+  app.get("/ping", (req, res) => {
+    res.json({ ping: client.ws.ping });
+  });
+
+  app.get("/guilds", (req, res) => {
+    res.json({ guilds: client.guilds.cache });
+  });
+
+  app.get("/users", (req, res) => {
+    res.json({ guilds: client.users.cache });
+  });
+
+  app.get("/commands", (req, res) => {
+    let commands = [];
+
+    client.commands.forEach((command) => {
+      commands.push(command);
+    });
+
+    commands = JSON.stringify(commands, (k, v) => {
+      if (typeof v === "bigint") return v.toString();
+      return v;
+    });
+
+    res.json({ commands });
   });
 
   app.post(
@@ -62,5 +90,5 @@ module.exports = (client) => {
     })
   );
 
-  app.listen(80);
+  app.listen(port, () => console.log(`👂 Listening on port ${port}`));
 };
