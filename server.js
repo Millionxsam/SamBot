@@ -1,6 +1,8 @@
 const { EmbedBuilder } = require("discord.js");
 const port = parseInt(process.env.port);
 
+console.log(`http://localhost:${port}`);
+
 module.exports = (client) => {
   const express = require("express");
   const Topgg = require("@top-gg/sdk");
